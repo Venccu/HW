@@ -94,7 +94,7 @@ class TypeAPerson(User):
         return "SUCCESS"
 
 class LazyPerson(User):
-    """Lazy personalities miss half of the mails. When they don't miss a mail, they always succeed"""
+    """Lazy personalities miss half of the mails. When they don't miss a mail, they succeed or fail with equal chance"""
 
     def __init__(self) -> None:
         """Init the object."""
@@ -103,11 +103,13 @@ class LazyPerson(User):
     def _get_simulation_outcome(self) -> str:
         
         r: float = random.uniform(0,1)
-        if(r>0.5): return "MISS"
-        return "SUCCESS"
+        if(r<=0.5): return "MISS"
+        else:
+            if(r>=0.75): return "SUCCESS"
+            else: return "FAIL"
 
 class N00b(User):
-    """N00bs miss 10% of the assignments. The once they catch, they succeed/fail with probability 20%/80%"""
+    """N00bs fail 80% of the emails, and succeed in 10% and miss 10%"""
 
     def __init__(self) -> None:
         """Init the object."""
@@ -116,10 +118,9 @@ class N00b(User):
     def _get_simulation_outcome(self) -> str:
         
         r: float = random.uniform(0,1)
-        if(r >= 0.1):
-            r2: float = random.uniform(0,1)
-            if(r2 >= 0.2): return "FAIL"
-            return "SUCCESS"
-        return "MISS"
+        if(r >= 0.8):
+            if(r >= 0.9): return "SUCCESS"
+            else: return "MISS"
+        else: return "FAIL"
             
         

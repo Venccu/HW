@@ -5,7 +5,7 @@ from typing import List
 import pandas as pd
 
 from config import TABLE_COLUMNS
-from user import DummyUser, User
+from user import DummyUser, User, LazyPerson, TypeAPerson, N00b
 
 
 class Organization:
@@ -22,13 +22,22 @@ class Organization:
         ), "Please create your users as subclasses of the abstract User class."
 
     def _populate_organization(self) -> List:
+        """60% of employees are N00bs, 20% are Lazy and remaining 20% of Type A personality"""
         # TODO(Task 2):
         # 1. import your own user types created in Task 1 from the user.py module
         # 2. change this to populate the organization with your own user types
         # 3. change the distribution from uniform to something a bit more realistic
         users = []
+        
         for i in range(self.n_users):
-            users.append(DummyUser())
+            if(i <= 0.6*self.n_users):
+                users.append(N00b())
+            else: 
+                if(i <= 0.8*self.n_users): 
+                    users.append(LazyPerson())
+                else: 
+                    users.append(TypeAPerson())
+        
         return users
 
     def do_training(self) -> None:
