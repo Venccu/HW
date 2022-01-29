@@ -81,3 +81,45 @@ class DummyUser(User):
         # In your solution, tweak this logic to mimick your chosen user types instead
         # of picking a random simulation outcome
         return random.choice(SIMULATION_OUTCOMES)
+
+class TypeAPerson(User):
+    """Type A personalities always succeed in tests"""
+
+    def __init__(self) -> None:
+        """Init the object."""
+        super(TypeAPerson, self).__init__(type="TypeAPerson")
+
+    def _get_simulation_outcome(self) -> str:
+        
+        return "SUCCESS"
+
+class LazyPerson(User):
+    """Lazy personalities miss half of the mails. When they don't miss a mail, they always succeed"""
+
+    def __init__(self) -> None:
+        """Init the object."""
+        super(LazyPerson, self).__init__(type="LazyPerson")
+
+    def _get_simulation_outcome(self) -> str:
+        
+        r: float = random.uniform(0,1)
+        if(r>0.5): return "MISS"
+        return "SUCCESS"
+
+class N00b(User):
+    """N00bs miss 10% of the assignments. The once they catch, they succeed/fail with probability 20%/80%"""
+
+    def __init__(self) -> None:
+        """Init the object."""
+        super(N00b, self).__init__(type="N00b")
+
+    def _get_simulation_outcome(self) -> str:
+        
+        r: float = random.uniform(0,1)
+        if(r >= 0.1):
+            r2: float = random.uniform(0,1)
+            if(r2 >= 0.2): return "FAIL"
+            return "SUCCESS"
+        return "MISS"
+            
+        
